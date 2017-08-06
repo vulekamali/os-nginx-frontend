@@ -11,7 +11,7 @@ while ! ping -c1 os-admin &>/dev/null; do :; done && echo "OS-ADMIN is UP"
 while ! ping -c1 os-fdp-adapters &>/dev/null; do :; done && echo "OS-FDP-ADAPTERS is UP"
 while ! ping -c1 redash &>/dev/null; do :; done && echo "REDASH is UP"
 while ! ping -c1 celery-flower &>/dev/null; do :; done && echo "FLOWER is UP"
-while ! ping -c1 sealer &>/dev/null; do :; done && echo "SEALER is UP"
+# while ! ping -c1 sealer &>/dev/null; do :; done && echo "SEALER is UP"
 
 echo "NGINX STARTING"
 nginx -g "daemon off;"
