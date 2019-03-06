@@ -1,3 +1,5 @@
+[![Travis](https://img.shields.io/travis/openspending/os-nginx-frontend.svg)](https://travis-ci.org/openspending/os-nginx-frontend)
+
 # os-nginx-frontend
 
 Nginx Dockerfile and configuration for the openspending.org website.
