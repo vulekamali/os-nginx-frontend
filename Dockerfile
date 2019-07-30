@@ -1,5 +1,6 @@
 FROM sickp/alpine-nginx
 
+ADD .htpasswd /etc/nginx/.htpasswd
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD server-rules.conf /etc/nginx/server-rules.conf
 

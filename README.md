@@ -5,3 +5,18 @@
 Nginx Dockerfile and configuration for the openspending.org website.
 
 Docker image built and pushed to https://hub.docker.com/r/openspending/os-nginx-frontend by Travis after a successful test run on master.
+
+## Managing HTTP Basic Authentification
+
+To secure some site areas with a simple login-password pair:
+- think up a username (for example, `username`)
+- generate a password: `openssl rand -base64 8` (for example, `password`)
+- generate a passfile: `htpasswd -c .htpasswd username`
+- add the passfile to `.gitignore`: `edit .gitignore`
+- install travis-cli: `sudo gem install travis`
+- login to travis: `travis login`
+- encrypt the passfile: `travis encrypt-file .htpasswd`
+- add decryption information to `travis.yml` based on the previous command output
+- add the passfile to the image in `Dokerfile`: `ADD .htpasswd /etc/nginx/.htpasswd`
+- add `auth_basic "Site Area Name"` to the server section in `nginx.conf`
+- add `auth_basic_user_file /etc/nginx/.htpasswd;` to the server section in `nginx.conf`
