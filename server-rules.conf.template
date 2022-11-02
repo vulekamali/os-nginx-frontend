@@ -95,10 +95,10 @@ location = /search {
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
-location ^~ /packager/ {
+location ~ ^/packager/(.*) {
     resolver 127.0.0.11 valid=30s;
     set $os_packager ${OS_PACKAGER};
-    proxy_pass http://$os_packager/;
+    proxy_pass http://$os_packager/$1$is_args$args;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
