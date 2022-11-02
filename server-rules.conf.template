@@ -1,104 +1,149 @@
+# Use a variable for upstream hostname so that it is resolved on request
+# so that nginx doesn't die when one of the upstreams don't resolve.
+# https://stackoverflow.com/a/32846603/1305080
+
+# 127.0.0.11 should be Docker's DNS resolver
+# https://stackoverflow.com/a/54719226/1305080
+
 location ^~ /api/3/ {
-    proxy_pass http://${OS_API};
+    resolver 127.0.0.11 valid=30s;
+    set $os_api ${OS_API};
+    proxy_pass http://$os_api;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /api/3 {
-    proxy_pass http://${OS_API};
+    resolver 127.0.0.11 valid=30s;
+    set $os_api ${OS_API};
+    proxy_pass http://$os_api;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /datastore/ {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /datastore {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /package/ {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /package {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /user/ {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /user {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /oauth/ {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /oauth {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /search/ {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /search {
-    proxy_pass http://${OS_CONDUCTOR};
+    resolver 127.0.0.11 valid=30s;
+    set $os_conductor ${OS_CONDUCTOR};
+    proxy_pass http://$os_conductor;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /packager/ {
-    proxy_pass http://${OS_PACKAGER}/;
+    resolver 127.0.0.11 valid=30s;
+    set $os_packager ${OS_PACKAGER};
+    proxy_pass http://$os_packager/;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /packager {
-    proxy_pass http://${OS_PACKAGER}/;
+    resolver 127.0.0.11 valid=30s;
+    set $os_packager ${OS_PACKAGER};
+    proxy_pass http://$os_packager/;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /viewer/ {
-    proxy_pass http://${OS_VIEWER}/;
+    resolver 127.0.0.1 valid=30s;
+    set $os_viewer ${OS_VIEWER};
+    proxy_pass http://$os_viewer/;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /viewer {
-    proxy_pass http://${OS_VIEWER}/;
+    resolver 127.0.0.1 valid=30s;
+    set $os_viewer ${OS_VIEWER};
+    proxy_pass http://$os_viewer/;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location / {
-    proxy_pass http://${OS_EXPLORER};
+    resolver 127.0.0.1 valid=30s;
+    set $os_explorer ${OS_EXPLORER};
+    proxy_pass http://$os_explorer;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
 location ^~ /admin/ {
-    proxy_pass http://${OS_ADMIN}/;
+    resolver 127.0.0.11 valid=30s;
+    set $os_admin ${OS_ADMIN};
+    proxy_pass http://$os_admin;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /admin {
-    proxy_pass http://${OS_ADMIN}/;
+    resolver 127.0.0.11 valid=30s;
+    set $os_admin ${OS_ADMIN};
+    proxy_pass http://$os_admin;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
