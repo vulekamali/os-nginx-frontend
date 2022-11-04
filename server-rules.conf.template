@@ -1,7 +1,11 @@
 # Use a variable for upstream hostname so that it is resolved on request
 # so that nginx doesn't die when one of the upstreams don't resolve.
 # https://stackoverflow.com/a/32846603/1305080
-
+#
+# Use captured path to pass to upstream because nginx doesn't
+# append the path when the upstream host is from a variable
+# https://stackoverflow.com/q/30308786/1305080
+#
 # 127.0.0.11 should be Docker's DNS resolver
 # https://stackoverflow.com/a/54719226/1305080
 
@@ -133,17 +137,17 @@ location / {
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
-location ^~ /admin/ {
+location ~ ^/admin/(.*) {
     resolver 127.0.0.11 valid=30s;
     set $os_admin ${OS_ADMIN};
-    proxy_pass http://$os_admin;
+    proxy_pass http://$os_admin/$1$is_args$args;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 location = /admin {
     resolver 127.0.0.11 valid=30s;
     set $os_admin ${OS_ADMIN};
-    proxy_pass http://$os_admin;
+    proxy_pass http://$os_admin/;
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
