@@ -161,7 +161,9 @@ location = /elasticsearch-todays-backup {
         set $month $2;
         set $day $3;
     }
-    proxy_pass http://$upstream/_snapshot/s3_repository/$year-$month-$day;
+    if ($request_method = GET ) {
+        proxy_pass http://$upstream/_snapshot/s3_repository/$year-$month-$day;
+    }
     proxy_set_header Host $host;
     proxy_set_header X-Forwarded-For $remote_addr;
 }
