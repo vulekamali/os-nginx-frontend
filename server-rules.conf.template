@@ -152,24 +152,16 @@ location = /admin {
     proxy_set_header X-Forwarded-For $remote_addr;
 }
 
-location ^~ /fdp-adapter/ {
-    proxy_pass http://${OS_FDP_ADAPTERS}/;
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $remote_addr;
-}
-location = /fdp-adapter {
-    proxy_pass http://${OS_FDP_ADAPTERS}/;
-    proxy_set_header Host $host;
-    proxy_set_header X-Forwarded-For $remote_addr;
-}
+location = /elasticsearch-todays-backup {
+    resolver 127.0.0.11 valid=30s;
+    set $upstream ${OS_ELASTICSEARCH};
 
-#location ^~ /sealer/ {
-#    proxy_pass http://sealer:3000/;
-#    proxy_set_header Host $host;
-#    proxy_set_header X-Forwarded-For $remote_addr;
-#}
-#location = /sealer {
-#    proxy_pass http://sealer:3000/;
-#    proxy_set_header Host $host;
-#    proxy_set_header X-Forwarded-For $remote_addr;
-#}
+    if ($time_iso8601 ~ "^(\d\d\d\d)-(\d\d)-(\d\d)") {
+        set $year $1;
+        set $month $2;
+        set $day $3;
+    }
+    proxy_pass http://$upstream/_snapshot/s3_repository/$year-$month-$day;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-For $remote_addr;
+}

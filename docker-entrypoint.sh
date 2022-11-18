@@ -4,7 +4,7 @@
 
 set -eu
 
-envsubst '${OS_API} ${OS_CONDUCTOR} ${OS_PACKAGER} ${OS_VIEWER} ${OS_EXPLORER} ${OS_ADMIN} ${OS_FDP_ADAPTERS}' < /etc/nginx/server-rules.conf.template > /etc/nginx/server-rules.conf
+envsubst '${OS_API} ${OS_CONDUCTOR} ${OS_PACKAGER} ${OS_VIEWER} ${OS_EXPLORER} ${OS_ADMIN} ${OS_ELASTICSEARCH}' < /etc/nginx/server-rules.conf.template > /etc/nginx/server-rules.conf
 
 cat /etc/nginx/server-rules.conf
 
